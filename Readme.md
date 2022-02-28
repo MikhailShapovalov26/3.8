@@ -71,6 +71,20 @@ CEF
             TX packets 144629  bytes 23767413 (23.7 MB)
             TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 К сожалению интерфейс не поднялся
+
+Дополнительно*
+
+                sudo modprobe -v dummy
+                insmod /lib/modules/5.4.0-91-generic/kernel/drivers/net/dummy.ko numdummies=0 
+                lsmod | grep dummy
+                dummy                  16384  0
+                Результат проверки
+                sudo ifconfig -a | grep dummy(вывода не было)
+                sudo ip addr add 192.168.1.150/24 dev dummy0
+                Cannot find device "dummy0"
+
+
+
 ## 3.
 Смотрим открытые порты TCP -t (у меня mint)
 
