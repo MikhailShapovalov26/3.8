@@ -82,6 +82,14 @@ CEF
                 sudo ifconfig -a | grep dummy(вывода не было)
                 sudo ip addr add 192.168.1.150/24 dev dummy0
                 Cannot find device "dummy0"
+** Дополнение 2
+
+                sudo modprobe -v dummy numdummies=2
+                [sudo] пароль для mikhail:         
+                $ lsmod | grep dummy
+                dummy                  16384  0
+                $ ifconfig -a | grep dummy
+                $ (вывода нет)
 
 
 
