@@ -91,6 +91,25 @@ CEF
                 $ ifconfig -a | grep dummy
                 $ (вывода нет)
 
+Я перешёл на другую операционную систему. А именно попробовал данные команды на orangepi
+                root@orangepione:~# modprobe -v dummy numdummies=2
+                insmod /lib/modules/5.15.25-sunxi/kernel/drivers/net/dummy.ko.xz numdummies=0 numdummies=2
+                root@orangepione:~# lsmod | grep dummy
+                dummy                  16384  0
+                root@orangepione:~# ifconfig -a
+                dummy0: flags=130<BROADCAST,NOARP>  mtu 1500
+                        ether 36:a7:8a:88:d9:cb  txqueuelen 1000  (Ethernet)
+                        RX packets 0  bytes 0 (0.0 B)
+                        RX errors 0  dropped 0  overruns 0  frame 0
+                        TX packets 0  bytes 0 (0.0 B)
+                        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+                dummy1: flags=130<BROADCAST,NOARP>  mtu 1500
+                        ether 1e:29:93:ea:b3:a6  txqueuelen 1000  (Ethernet)
+                        RX packets 0  bytes 0 (0.0 B)
+                        RX errors 0  dropped 0  overruns 0  frame 0
+                        TX packets 0  bytes 0 (0.0 B)
+                        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 
 
 ## 3.
