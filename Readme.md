@@ -92,6 +92,8 @@ CEF
                 $ (вывода нет)
 
 Я перешёл на другую операционную систему. А именно попробовал данные команды на orangepi
+-------------------------------
+
                 root@orangepione:~# modprobe -v dummy numdummies=2
                 insmod /lib/modules/5.15.25-sunxi/kernel/drivers/net/dummy.ko.xz numdummies=0 numdummies=2
                 root@orangepione:~# lsmod | grep dummy
