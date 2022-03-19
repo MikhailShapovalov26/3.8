@@ -175,3 +175,44 @@ https://github.com/MikhailShapovalov26/3.8/blob/e2f78e3c829974b94845eb80e56896dc
         фев 21 10:24:09 HP systemd[1]: nginx.service: Failed with result 'exit-code'.
         фев 21 10:24:09 HP systemd[1]: Failed to start A high performance web server and a reverse proxy server.
 Могли бы Вы мне помочь в нём разобраться? Очень он мне нужен и интересен. 
+
+
+Дополнение
+В этот раз получилось запустить сайт с помощью nginx и он отобразился, так же смог подкинуть самоподписной сертификат
+                server {
+                        listen 443 ssl;
+
+                        listen 80;
+                        server_name testhome;
+                        ssl_certificate /etc/ssl/testhome.crt;
+                        ssl_certificate_key /etc/ssl/testhome.key;
+                        root /var/www/testhome/html;
+
+                }
+https://192.168.88.239/
+
+1) Но вопрос в следующем, как мне подключатся к моему сайту не ип адресу а по имени сервер_имени указаным в конфиг файле?
+2) Так же вопрос уже по заданию, как я смогу балансировать нагрузку если к примеру это мой сервер, он же и является хранилищем сайта. К примеру в сети есть такой листинг, где мы распределяем нагрузку между 2 серверами. То есть если приходит к нам запрос по порту 1123 то мы должны взять информацию с других серверов. Но как это организовать в домашних условиях не понимаю. По идее должно быть 3 сервера. Один на входе, другие за ним. 
+                stream {
+                upstream my_upstream {
+                        server server1.example.com:1234;
+                        server server2.example.com:2345;
+                }
+
+                server {
+                        listen 1123 [udp];
+                        proxy_pass my_upstream; # Обратите внимание, что здесь нет http: //
+                }
+                }   
+Другой вариант
+
+                stream {
+                upstream tcp_backend {
+                server srv1.example.com:3306;
+                server srv2.example.com:3306;
+                }
+                server {
+                listen 3306;
+                proxy_pass tcp_backend;
+                }
+                }
