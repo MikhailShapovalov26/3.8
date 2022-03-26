@@ -216,3 +216,51 @@ https://192.168.88.239/
                 proxy_pass tcp_backend;
                 }
                 }
+1) я выяснял как это сделать. сайт открывается по имени в hosts
+2) 
+вот первый вариант который у меня получился 
+
+                upstream memcached_backend {
+                        server 127.0.0.1:443;
+
+                }
+                server {
+                        listen 443 ssl;
+                        client_max_body_size 80M;
+                        server_name testhome;
+                        root /var/www/testhome/html;
+                        ssl_session_cache    shared:webshopSSL:1m;
+                        ssl_session_timeout  10m;
+                        ssl_certificate /etc/ssl/testhome.crt;
+                        ssl_certificate_key /etc/ssl/testhome.key;
+                        ssl_verify_client off;
+                        ssl_protocols        SSLv3 TLSv1 TLSv1.1 TLSv1.2;
+
+                        ssl_ciphers RC4:HIGH:!aNULL:!MD5;
+                        ssl_prefer_server_ciphers on;
+
+                location /memcached/ {
+                        set $memcached_key $uri;
+                        memcached_pass memcached_backend;
+                }
+
+Второй вариант
+                upstream http_backend {
+                    server 127.0.0.1:8080;
+                    keepalive 16;
+                }
+                server {
+                        listen 443 ssl;
+
+                location /http/ {
+                        proxy_pass http://http_backend;
+                        proxy_http_version 1.1;
+                        proxy_set_header Connection "";
+                    }
+                        server_name testhome;
+                        ssl_certificate /etc/ssl/testhome.crt;
+                        ssl_certificate_key /etc/ssl/testhome.key;
+                        root /var/www/testhome/html;
+
+                }
+В остальных случаях он возращал в браузере ошибку 502. 
